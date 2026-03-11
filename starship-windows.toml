@@ -1,0 +1,35 @@
+format = """
+[](fg:#bd93f9)\
+$username\
+$hostname\
+[](fg:#bd93f9) \
+[](fg:#8be9fd)\
+$directory\
+[](fg:#8be9fd) \
+$git_branch\
+$character"""
+
+[username]
+show_always = true
+style_user = "bg:#bd93f9 fg:#282a36"
+format = '[  $user]($style)'
+
+[hostname]
+ssh_only = false
+style = "bg:#bd93f9 fg:#282a36"
+format = '[@$hostname ]($style)'
+
+[directory]
+style = "bg:#8be9fd fg:#282a36"
+format = '[  $path ]($style)'
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bg:#50fa7b fg:#282a36"
+format = '[](fg:#50fa7b)[ $symbol $branch ]($style)[](fg:#50fa7b) '
+
+[character]
+success_symbol = "\n[╰─](bold #50fa7b) "
+error_symbol = "\n[╰─](bold #ff5555) "
