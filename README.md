@@ -1,41 +1,103 @@
-# 🧛‍♂️ Dracula Windows Terminal & WSL2
+# 🧛 Dracula Terminal Setup
+
+Setup unificado do terminal com tema **Dracula Powerline** para **Windows (PowerShell)** e **Fedora Linux (WSL2)**, usando o motor [Starship](https://starship.rs/).
 
 ![Preview](IMG/Windows%20-%20Fedora.png)
 
-> Preview do ambiente híbrido em execução.
-
 ---
 
-## 📌 Sobre o Projeto
+## ⚙️ Stack
 
-Este repositório contém o backup completo e a infraestrutura como código (IaC) do meu ambiente de terminal híbrido. Projetado para máxima performance e estética unificada, ele sincroniza o tema **Dracula** entre o Windows 11 nativo e o subsistema Linux (WSL2), garantindo uma transição visual perfeita entre sistemas operacionais.
-
----
-
-## ⚙️ Tecnologias e Ferramentas
-
-| Componente | Detalhe |
+| Ferramenta | Função |
 |---|---|
-| OS Base | Windows 11 Pro (Otimizado com telemetria desativada via OOSU10) |
-| Sub-sistema | WSL2 com Fedora Linux 43 |
-| Shell Windows | PowerShell 7.5.4 |
-| Shell Linux | ZSH 5.9 + Oh My Zsh |
-| Prompt Universal | Starship (Customizado para ocultar credenciais locais) |
-| Fontes | JetBrainsMono Nerd Font |
-| Monitoramento | Fastfetch (Configurações em JSONc) |
+| [Starship](https://starship.rs/) | Motor do prompt (cross-shell) |
+| [Oh My Zsh](https://ohmyz.sh/) | Framework do Zsh (Linux) |
+| [Terminal-Icons](https://github.com/devblackops/Terminal-Icons) | Ícones no `ls` (PowerShell) |
+| [PSReadLine](https://github.com/PowerShell/PSReadLine) | Autocomplete inline (PowerShell) |
+| [FiraCode Nerd Font](https://www.nerdfonts.com/) | Fonte com ícones |
+| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | Sysinfo no startup |
 
 ---
 
-## 📂 Estrutura de Arquivos
+## 📁 Estrutura
 
-- `Microsoft.PowerShell_profile.ps1`: Perfil de inicialização do PowerShell 7 (PSReadLine, módulos e aliases).
-- `.zshrc`: Configurações nativas do ambiente Fedora/WSL.
-- `starship.toml`: Regras de prompt unificadas para ambos os sistemas operacionais, com foco em privacidade (omissão de hostname/usuário) e indicadores de git.
+```
+Dracula_Windows-Terminal/
+├── windows/
+│   └── profile.ps1          ← PowerShell profile
+├── linux/
+│   └── .zshrc               ← Zsh config
+├── shared/
+│   └── starship.toml        ← Config unificada (Windows + Linux)
+├── IMG/
+│   └── Windows - Fedora.png
+└── README.md
+```
 
 ---
 
-## 🚀 Filosofia do Setup
+## 🔄 Restauro Pós-Formato
 
-1. **Performance Híbrida:** Uso do plano Ultimate Performance no host, enquanto o desenvolvimento pesado é isolado no file system nativo do Linux (`ext4`) para evitar o overhead do NTFS.
-2. **Minimalismo e Foco:** Supressão de banners de carregamento (`-nologo`) e limitação de poluição visual.
-3. **Privacidade Padrão:** O `starship.toml` foi intencionalmente configurado para não expor usuários locais ou nomes de rede em capturas de tela e logs.
+### 1 — Clonar o repo
+
+```bash
+git clone https://github.com/matheuskadota/Dracula_Windows-Terminal ~/Dracula-Terminal-Setup
+```
+
+---
+
+### 2 — Linux (Fedora WSL2)
+
+**Instalar dependências:**
+```bash
+# Starship
+curl -sS https://starship.rs/install.sh | sh
+
+# Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+
+# fastfetch
+sudo dnf install fastfetch
+```
+
+**Restaurar configs:**
+```bash
+cp ~/Dracula-Terminal-Setup/linux/.zshrc ~/.zshrc
+cp ~/Dracula-Terminal-Setup/shared/starship.toml ~/.config/starship.toml
+```
+
+---
+
+### 3 — Windows (PowerShell)
+
+**Instalar dependências:**
+```powershell
+winget install Starship.Starship
+winget install fastfetch-cli.fastfetch
+Install-Module -Name Terminal-Icons -Repository PSGallery
+Install-Module PSReadLine
+```
+> FiraCode Nerd Font: instalar manualmente em [nerdfonts.com](https://www.nerdfonts.com/)
+
+**Restaurar configs:**
+```powershell
+Copy-Item .\windows\profile.ps1 $PROFILE
+Copy-Item .\shared\starship.toml $env:USERPROFILE\.config\starship.toml
+```
+
+---
+
+## ⚠️ Aviso Importante
+
+Nunca copiar ícones de Nerd Font pelo navegador — corrompem o UTF-8.
+Sempre injetar configurações via terminal:
+
+```bash
+cat << 'EOF' > ~/.config/starship.toml
+# cole o conteúdo aqui
+EOF
+```
