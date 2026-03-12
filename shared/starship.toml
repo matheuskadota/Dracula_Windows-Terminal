@@ -1,0 +1,27 @@
+format = """
+[\u202d\ue0b6](#bd93f9)\
+$os\
+[\ue0b0](bg:#8be9fd fg:#bd93f9)\
+$directory\
+[\ue0b0](fg:#8be9fd)\
+$line_break\
+$character"""
+
+[os]
+disabled = false
+style = "bg:#bd93f9 fg:#282a36"
+format = "[$symbol ]($style)"
+
+[os.symbols]
+Windows = "󰍲"
+Fedora = ""
+
+[directory]
+style = "bg:#8be9fd fg:#282a36"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = ".../"
+
+[character]
+success_symbol = "[\u00bb](#f1fa8c) "
+error_symbol = "[\u00bb](#ff5555) "
