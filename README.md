@@ -1,4 +1,4 @@
-# 🧛‍♂️ Dracula Terminal Setup: Windows 11 & WSL2
+# 🧛‍♂️ Dracula Windows Terminal & WSL2
 
 ![Preview](IMG/Windows%20-%20Fedora.png)
 
